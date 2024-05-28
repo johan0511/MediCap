@@ -64,6 +64,7 @@ const Button = styled.button`
   }
 `;
 
+/** */
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
