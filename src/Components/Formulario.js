@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+import Modal from './Modal';
 
 const AppointmentForm = () => {
   const [formData, setFormData] = useState({
@@ -56,13 +57,12 @@ const AppointmentForm = () => {
       confirmButtonText: "Generar Cita",
     }).then((result) => {
       if (result.isConfirmed) {
+        const appointmentNumber = Math.floor(Math.random() * 100) + 1;
         Swal.fire({
           title: "Cita Generada",
           html: `
-            <p>Gracias por elegir MedicApp</p>
-            <p>El turno de la cita es el A${
-              Math.floor(Math.random() * 100) + 1
-            }</p>
+            <p>Gracias ${formData.firstName} ${formData.lastName} por elegir MedicApp</p>
+            <p>El turno de la cita es el A${appointmentNumber}</p>
           `,
           confirmButtonText: "OK",
         });
@@ -84,6 +84,10 @@ const AppointmentForm = () => {
         setAppointmentCost(0);
       }
     });
+  };
+
+  const editAppointment = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -213,6 +217,14 @@ const AppointmentForm = () => {
         </div>
         <button type="submit" className="button">Agendar Cita</button>
       </form>
+      {isModalOpen && (
+        <Modal
+          formData={formData}
+          onConfirm={confirmAppointment}
+          onEdit={editAppointment}
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 };
