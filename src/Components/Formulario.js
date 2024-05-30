@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import Swal from 'sweetalert2';
-import Modal from './Modal';
+import React, { useState } from "react";
+import Swal from "sweetalert2";
+import Modal from "./Modal";
 
 const AppointmentForm = () => {
   const [formData, setFormData] = useState({
@@ -96,7 +96,9 @@ const AppointmentForm = () => {
       <form onSubmit={handleSubmit}>
         <div className="grid-container">
           <div>
-            <label htmlFor="firstName" className="label">Nombres:</label>
+            <label htmlFor="firstName" className="label">
+              Nombres:
+            </label>
             <input
               type="text"
               id="firstName"
@@ -108,7 +110,9 @@ const AppointmentForm = () => {
             />
           </div>
           <div>
-            <label htmlFor="lastName" className="label">Apellidos:</label>
+            <label htmlFor="lastName" className="label">
+              Apellidos:
+            </label>
             <input
               type="text"
               id="lastName"
@@ -120,7 +124,9 @@ const AppointmentForm = () => {
             />
           </div>
           <div>
-            <label htmlFor="idNumber" className="label">Número de cédula:</label>
+            <label htmlFor="idNumber" className="label">
+              Número de cédula:
+            </label>
             <input
               type="text"
               id="idNumber"
@@ -132,7 +138,9 @@ const AppointmentForm = () => {
             />
           </div>
           <div>
-            <label htmlFor="phoneNumber" className="label">Número de teléfono:</label>
+            <label htmlFor="phoneNumber" className="label">
+              Número de teléfono:
+            </label>
             <input
               type="tel"
               id="phoneNumber"
@@ -144,7 +152,9 @@ const AppointmentForm = () => {
             />
           </div>
           <div>
-            <label htmlFor="gender" className="label">Género:</label>
+            <label htmlFor="gender" className="label">
+              Género:
+            </label>
             <select
               id="gender"
               name="gender"
@@ -160,7 +170,9 @@ const AppointmentForm = () => {
             </select>
           </div>
           <div>
-            <label htmlFor="appointmentType" className="label">Tipo de cita médica:</label>
+            <label htmlFor="appointmentType" className="label">
+              Tipo de cita médica:
+            </label>
             <select
               id="appointmentType"
               name="appointmentType"
@@ -180,7 +192,9 @@ const AppointmentForm = () => {
             </select>
           </div>
           <div>
-            <label htmlFor="appointmentDate" className="label">Fecha de cita:</label>
+            <label htmlFor="appointmentDate" className="label">
+              Fecha de cita:
+            </label>
             <input
               type="date"
               id="appointmentDate"
@@ -192,7 +206,9 @@ const AppointmentForm = () => {
             />
           </div>
           <div>
-            <label htmlFor="appointmentTime" className="label">Hora de cita:</label>
+            <label htmlFor="appointmentTime" className="label">
+              Hora de cita:
+            </label>
             <input
               type="time"
               id="appointmentTime"
@@ -204,7 +220,9 @@ const AppointmentForm = () => {
             />
           </div>
           <div className="full-width-grid-item">
-            <label htmlFor="symptoms" className="label">Síntomas:</label>
+            <label htmlFor="symptoms" className="label">
+              Síntomas:
+            </label>
             <textarea
               id="symptoms"
               name="symptoms"
@@ -215,7 +233,9 @@ const AppointmentForm = () => {
             />
           </div>
         </div>
-        <button type="submit" className="button">Agendar Cita</button>
+        <button type="submit" className="button">
+          Agendar Cita
+        </button>
       </form>
       {isModalOpen && (
         <Modal
