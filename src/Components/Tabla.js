@@ -1,39 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
+import axios from "axios";
 
 Modal.setAppElement("#root");
 
 const VerificarCitaMedica = () => {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      firstName: "Juan",
-      lastName: "Pérez",
-      idNumber: "123456789",
-      phoneNumber: "1234567890",
-      gender: "Masculino",
-      appointmentType: "Medicina general",
-      appointmentDate: "2023-06-15",
-      appointmentTime: "10:00",
-      symptoms: "Dolor de cabeza, fiebre",
-    },
-    {
-      id: 2,
-      firstName: "María",
-      lastName: "Gómez",
-      idNumber: "987654321",
-      phoneNumber: "0987654321",
-      gender: "Femenino",
-      appointmentType: "Odontología",
-      appointmentDate: "2023-06-20",
-      appointmentTime: "15:30",
-      symptoms: "Dolor de muelas",
-    },
-  ]);
-
+  const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/citas/ver");
+      setData(response.data);
+    } catch (error) {
+      console.error("Error al obtener los datos:", error);
+    }
+  };
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -44,8 +32,13 @@ const VerificarCitaMedica = () => {
     setIsModalOpen(true);
   };
 
-  const handleDeleteAppointment = (id) => {
-    setData(data.filter((appointment) => appointment.id !== id));
+  const handleDeleteAppointment = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/citas/eliminar/${id}`);
+      setData(data.filter((appointment) => appointment.id !== id));
+    } catch (error) {
+      console.error("Error al eliminar la cita:", error);
+    }
   };
 
   const handleCloseModal = () => {
@@ -142,7 +135,8 @@ const VerificarCitaMedica = () => {
                 <strong>Apellidos:</strong> {selectedAppointment.lastName}
               </p>
               <p>
-                <strong>Número de cédula:</strong> {selectedAppointment.idNumber}
+                <strong>Número de cédula:</strong>{" "}
+                {selectedAppointment.idNumber}
               </p>
               <p>
                 <strong>Número de teléfono:</strong>{" "}
@@ -152,13 +146,16 @@ const VerificarCitaMedica = () => {
                 <strong>Género:</strong> {selectedAppointment.gender}
               </p>
               <p>
-                <strong>Tipo de cita:</strong> {selectedAppointment.appointmentType}
+                <strong>Tipo de cita:</strong>{" "}
+                {selectedAppointment.appointmentType}
               </p>
               <p>
-                <strong>Fecha de cita:</strong> {selectedAppointment.appointmentDate}
+                <strong>Fecha de cita:</strong>{" "}
+                {selectedAppointment.appointmentDate}
               </p>
               <p>
-                <strong>Hora de cita:</strong> {selectedAppointment.appointmentTime}
+                <strong>Hora de cita:</strong>{" "}
+                {selectedAppointment.appointmentTime}
               </p>
               <p>
                 <strong>Síntomas:</strong> {selectedAppointment.symptoms}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import Modal from "./Modal";
+import axios from "axios";
 
 const AppointmentForm = () => {
   const [formData, setFormData] = useState({
@@ -40,9 +41,47 @@ const AppointmentForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsModalOpen(true);
+
+    try {
+      // Enviar los datos del formulario al servidor
+      const response = await axios.post(
+        "http://localhost:3000/citas/crear",
+        formData
+      );
+
+      // Mostrar mensaje de éxito
+      Swal.fire({
+        title: "Cita Agendada",
+        text: response.data.message,
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+
+      // Limpiar los campos del formulario después de enviar
+      setFormData({
+        firstName: "",
+        lastName: "",
+        idNumber: "",
+        phoneNumber: "",
+        gender: "",
+        appointmentDate: "",
+        appointmentTime: "",
+        symptoms: "",
+        appointmentType: "",
+      });
+      setAppointmentCost(0);
+    } catch (error) {
+      // Mostrar mensaje de error si falla la solicitud
+      console.error("Error al enviar los datos del formulario:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un problema al agendar la cita. Por favor, intenta de nuevo más tarde.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
   };
 
   const closeModal = () => {
