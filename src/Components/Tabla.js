@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import axios from "axios";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import { saveAs } from "file-saver";
+import Swal from "sweetalert2";
 
 Modal.setAppElement("#root");
 
@@ -44,6 +48,115 @@ const VerificarCitaMedica = () => {
   const handleCloseModal = () => {
     setSelectedAppointment(null);
     setIsModalOpen(false);
+  };
+
+  const handleDownloadCertificate = () => {
+    Swal.fire({
+      title: "¿En qué formato deseas descargar?",
+      showCancelButton: true,
+      confirmButtonText: "PDF",
+      cancelButtonText: "Word",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (selectedAppointment) {
+          downloadCertificate(selectedAppointment, "pdf");
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        if (selectedAppointment) {
+          downloadCertificate(selectedAppointment, "docx");
+        }
+      }
+    });
+  };
+  const downloadCertificate = (appointment, format) => {
+    if (format === "pdf") {
+      const doc = new jsPDF();
+      doc.setFontSize(18);
+      doc.text("Certificado de Cita Médica", 20, 20);
+      doc.setFontSize(12);
+      const rows = [
+        ["Nombres", appointment.firstName],
+        ["Apellidos", appointment.lastName],
+        ["Número de cédula", appointment.idNumber],
+        ["Número de teléfono", appointment.phoneNumber],
+        ["Género", appointment.gender],
+        ["Tipo de cita", appointment.appointmentType],
+        ["Fecha de cita", appointment.appointmentDate],
+        ["Hora de cita", appointment.appointmentTime],
+        ["Síntomas", appointment.symptoms],
+      ];
+      doc.autoTable({
+        startY: 30,
+        head: [["Detalle", "Valor"]],
+        body: rows,
+        styles: { fontSize: 12 },
+        columnStyles: { 0: { halign: "right" } },
+      });
+      doc.save("certificado_cita_medica.pdf");
+    } else if (format === "docx") {
+      const rows = [
+        ["Nombres", appointment.firstName],
+        ["Apellidos", appointment.lastName],
+        ["Número de cédula", appointment.idNumber],
+        ["Número de teléfono", appointment.phoneNumber],
+        ["Género", appointment.gender],
+        ["Tipo de cita", appointment.appointmentType],
+        ["Fecha de cita", appointment.appointmentDate],
+        ["Hora de cita", appointment.appointmentTime],
+        ["Síntomas", appointment.symptoms],
+      ];
+      const table = `
+        <table>
+          <thead>
+            <tr>
+              <th>Detalle</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows
+              .map(
+                (row) => `
+                  <tr>
+                    <td>${row[0]}</td>
+                    <td>${row[1]}</td>
+                  </tr>
+                `
+              )
+              .join("")}
+          </tbody>
+        </table>
+      `;
+      const fileContent = `
+        <html>
+          <head>
+            <title>Certificado de Cita Médica</title>
+            <style>
+              table {
+                border-collapse: collapse;
+                width: 100%;
+              }
+              th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+              }
+              th {
+                background-color: #f2f2f2;
+              }
+            </style>
+          </head>
+          <body>
+            <h1>Certificado de Cita Médica</h1>
+            ${table}
+          </body>
+        </html>
+      `.trim();
+      const blob = new Blob([fileContent], {
+        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      });
+      saveAs(blob, "certificado_cita_medica.docx");
+    }
   };
 
   const filteredData = data.filter(
@@ -160,6 +273,9 @@ const VerificarCitaMedica = () => {
               <p>
                 <strong>Síntomas:</strong> {selectedAppointment.symptoms}
               </p>
+              <button onClick={handleDownloadCertificate}>
+                Descargar certificado
+              </button>
             </>
           )}
         </div>

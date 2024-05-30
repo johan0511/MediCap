@@ -1,0 +1,80 @@
+<html>
+          <head>
+            <title>Certificado de Cita Médica</title>
+            <style>
+              table {
+                border-collapse: collapse;
+                width: 100%;
+              }
+              th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+              }
+              th {
+                background-color: #f2f2f2;
+              }
+            </style>
+          </head>
+          <body>
+            <h1>Certificado de Cita Médica</h1>
+            
+        <table>
+          <thead>
+            <tr>
+              <th>Detalle</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+                  <tr>
+                    <td>Nombres</td>
+                    <td>johan</td>
+                  </tr>
+                
+                  <tr>
+                    <td>Apellidos</td>
+                    <td>Casilinmas</td>
+                  </tr>
+                
+                  <tr>
+                    <td>Número de cédula</td>
+                    <td>1075624127</td>
+                  </tr>
+                
+                  <tr>
+                    <td>Número de teléfono</td>
+                    <td>3212018374</td>
+                  </tr>
+                
+                  <tr>
+                    <td>Género</td>
+                    <td>Masculino</td>
+                  </tr>
+                
+                  <tr>
+                    <td>Tipo de cita</td>
+                    <td>Odontologia</td>
+                  </tr>
+                
+                  <tr>
+                    <td>Fecha de cita</td>
+                    <td>2024-05-30T05:00:00.000Z</td>
+                  </tr>
+                
+                  <tr>
+                    <td>Hora de cita</td>
+                    <td>04:45:00</td>
+                  </tr>
+                
+                  <tr>
+                    <td>Síntomas</td>
+                    <td>Hola</td>
+                  </tr>
+                
+          </tbody>
+        </table>
+      
+          </body>
+        </html>
